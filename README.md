@@ -4,6 +4,8 @@ Manuscript archive for the twisted-graphene project by Vladislav Efremkin, Thoma
 
 The working manuscript is also available in [Overleaf](https://www.overleaf.com/project/6aaa40e72ddf45865b2e3bce). Updates between the two services are manual; this repository is not automatically synchronized with Overleaf.
 
+Standing workflow requirement: synchronize every manuscript change to Overleaf before reporting it as complete. Fetch the current Overleaf state first and preserve any collaborator edits. Rebuild and check affected PDFs, push the verified changes, and confirm that the local and Overleaf revisions agree. Keep the GitHub archive current as well. If synchronization is blocked, explicitly report the unsynchronized changes rather than claiming completion.
+
 This package contains a PRL-format Letter and a detailed supplement based on the supplied Efremkin/Prodan material. It is an author-review draft, not a submission-ready claim of a topological phase. The source DFT image data have not been altered.
 
 ## Contents
