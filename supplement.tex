@@ -37,7 +37,7 @@ The supplied $d=2.15\,\angstrom$ series samples $\theta=30^\circ,30.6^\circ,\ldo
  \bm C=(0,0,12.15).
  \label{eq:cell}
 \end{equation}
-The first 1250 atoms are carbon in the lower layer at $z=0$. They form a $25\times25$ supercell of the two-atom graphene primitive cell. The nearest-neighbor distance is $a_{\rm CC}=1.42\,\angstrom$; the primitive-vector length is $\sqrt{3}a_{\rm CC}$, not $a_{\rm CC}$. The upper sheet is rotated and cut to avoid overlap with its periodic replicas, and its dangling bonds are hydrogen terminated. The supplied C--H distances are approximately $1.09\,\angstrom$. All upper carbon and hydrogen atoms lie at $z=2.15\,\angstrom$.
+The first 1250 atoms are carbon in the lower layer at $z=0$. They form a $25\times25$ supercell of the two-atom graphene primitive cell. The nearest-neighbor distance is $a_{\rm CC}=1.42\,\angstrom$. The primitive-vector length is $\sqrt{3}a_{\rm CC}$, not $a_{\rm CC}$. The upper sheet is rotated and cut to avoid overlap with its periodic replicas, and its dangling bonds are hydrogen terminated. The supplied C--H distances are approximately $1.09\,\angstrom$. All upper carbon and hydrogen atoms lie at $z=2.15\,\angstrom$.
 
 The finite upper patch contains 955--1013 carbon atoms and 84--100 hydrogen atoms. The total atom count ranges from 2290 to 2362. For example, the $45^\circ$ structure has 984 upper-layer carbon atoms and 94 hydrogen atoms, giving 2328 atoms in total. Figure~\ref{fig:counts} and the accompanying \texttt{data/geometry\_counts.csv} record this variation. An angle scan consequently changes not only registry but also coverage and edge termination. These variations are not equivalent to a twist scan at fixed Hilbert-space dimension in the disk model.
 
@@ -47,36 +47,38 @@ The finite upper patch contains 955--1013 carbon atoms and 84--100 hydrogen atom
 \label{fig:counts}
 \end{figure}
 
-The input specifies periodicity in all three directions. At this separation, the distance from the upper plane to the next lower-layer periodic image along $z$ is $10\,\angstrom$. An isolated-boundary Poisson block is commented out. These facts do not establish convergence with respect to vacuum or electrostatic boundary conditions. The calculation type is \texttt{ENERGY}: neither structural relaxation nor force convergence is demonstrated. An imposed layer separation is not a measured or calculated hydrostatic pressure. In particular, the strongly compressed structures are constrained electronic configurations; their mechanical stability remains to be tested.
+The input specifies periodicity in all three directions. At this separation, the distance from the upper plane to the next lower-layer periodic image along $z$ is $10\,\angstrom$. An isolated-boundary Poisson block is commented out. These facts do not establish convergence with respect to vacuum or electrostatic boundary conditions. The calculation type is \texttt{ENERGY}: neither structural relaxation nor force convergence is demonstrated. An imposed layer separation is not a measured or calculated hydrostatic pressure. In particular, the strongly compressed structures are constrained electronic configurations. Their mechanical stability remains to be tested.
 
 \section{First-principles settings and projected spectral weights}
 
-Table~\ref{tab:settings} summarizes the common input recovered for the 51 configurations. The associated submission script loads a CP2K/2023.1 module, but a program-version header from a completed output is not available. The SZV settings can be audited from the supplied inputs; the precise DZVP basis identifier and all corresponding calculation settings must be confirmed from the separate DZVP runs. Qualitative similarity between their rendered DOS maps does not establish basis convergence.
+Table~\ref{tab:settings} summarizes the common input recovered for the 51 configurations. The associated submission script loads a CP2K/2023.1 module, but a program-version header from a completed output is not available. The SZV settings can be audited from the supplied inputs. The precise DZVP basis identifier and all corresponding calculation settings must be confirmed from the separate DZVP runs. Qualitative similarity between their rendered DOS maps does not establish basis convergence.
+
+The inputs specify the libraries \texttt{BASIS\_MOLOPT} and \texttt{GTH\_POTENTIALS}, not the newer UZH parameter files. The UZH protocol~\cite{uzh2026} provides the methodological reference for constructing MOLOPT/GTH parameter sets and separately assessing Gaussian-basis and pseudopotential errors.
 
 \begin{table}[h]
 \caption{Settings explicitly present in the supplied $d=2.15\,\angstrom$ inputs. Defaults not specified in those files are not reported as independently verified run parameters.}
 \label{tab:settings}
 \begin{ruledtabular}
 \begin{tabular}{p{0.29\textwidth}p{0.64\textwidth}}
-Electronic-structure method & CP2K Quickstep, Gaussian and plane waves (GPW), PBE~\cite{cp2k2020,pbe1996} \\
-Pseudopotentials & GTH-PBE, carbon $q4$, hydrogen $q1$~\cite{gth1996} \\
-Gaussian basis & SZV-MOLOPT-GTH for C and H~\cite{molopt2007} \\
-Spin and charge & Spin polarization enabled; total charge zero; multiplicity not explicitly set \\
-Density grid & 300-Ry cutoff; five multigrids; relative cutoff not explicitly set \\
+Electronic-structure method & CP2K Quickstep, Gaussian and plane waves (GPW)~\cite{cp2k2020,cp2k2026}, PBE~\cite{pbe1996} \\
+Pseudopotentials & GTH-PBE, carbon $q4$, hydrogen $q1$ \\
+Gaussian basis & SZV-MOLOPT-GTH for C and H \\
+Spin and charge & Spin-polarized, neutral system with multiplicity not explicitly set \\
+Density grid & 300-Ry cutoff and five multigrids. Relative cutoff not explicitly set \\
 Quickstep accuracy & \texttt{EPS\_DEFAULT} $=10^{-10}$ \\
-Self-consistency & \texttt{EPS\_SCF} $=10^{-5}$; maximum 6000 iterations; atomic initial guess \\
-Diagonalization and mixing & Standard diagonalization; adaptive threshold 0.01; Broyden mixing, $\alpha=0.2$, buffer 10 \\
-Occupation scheme & Fermi--Dirac smearing at 300 K; 300 added molecular orbitals \\
-Dispersion & D3 pair-potential input with C9 terms requested; long-range correction disabled~\cite{grimme2010} \\
-Reciprocal-space sampling & No explicit \texttt{KPOINTS} section; $\Gamma$-point calculation \\
+Self-consistency & \texttt{EPS\_SCF} $=10^{-5}$, maximum 6000 iterations, atomic initial guess \\
+Diagonalization and mixing & Standard diagonalization with adaptive threshold 0.01. Broyden mixing with $\alpha=0.2$, buffer 10 \\
+Occupation scheme & Fermi--Dirac smearing at 300 K with 300 added molecular orbitals \\
+Dispersion & D3 pair-potential input with C9 terms requested and long-range correction disabled~\cite{grimme2010} \\
+Reciprocal-space sampling & $\Gamma$-point calculation (no explicit \texttt{KPOINTS} section) \\
 DOS output request & \texttt{DELTA\_E} $=0.0001$ in the DOS print block \\
-Layer projection & PDOS/LDOS on atoms 1--1250; component output requested \\
-Boundary and run type & Cell periodicity XYZ; fixed-geometry \texttt{ENERGY} run
+Layer projection & PDOS/LDOS on atoms 1--1250 with component output requested \\
+Boundary and run type & Fixed-geometry \texttt{ENERGY} run with cell periodicity XYZ
 \end{tabular}
 \end{ruledtabular}
 \end{table}
 
-The D3 term depends on the geometry and is added to the DFT energy and forces. It does not by itself alter the Kohn--Sham potential at a fixed geometry. Dispersion could affect the spectrum indirectly through a relaxed structure, but such relaxation is not part of the supplied input series.
+The D3 term accounts for dispersion interactions that are important for interlayer binding in graphene and for its equilibrium layer separation~\cite{lebedeva2017}. It depends on the geometry and is added to the DFT energy and forces. It does not by itself alter the Kohn--Sham potential at a fixed geometry. Dispersion could affect the spectrum indirectly through a relaxed structure, but such relaxation is not part of the supplied input series.
 
 Let $\{\chi_\mu\}$ be the nonorthogonal Gaussian basis. The matrices
 \begin{equation}
@@ -98,11 +100,11 @@ The CP2K 2023.1 PDOS implementation uses the corresponding L\"owdin-type coeffic
  w^{(L)}_{n\sigma}=\widetilde{\bm c}_{n\sigma}^{\dagger}\bm\Pi_L
  \widetilde{\bm c}_{n\sigma},\qquad 0\leq w^{(L)}_{n\sigma}\leq1.
 \end{equation}
-This is an orbital-partition weight, not a real-space integral over a geometrical slab. Summing over a complete partition of all orbital labels recovers unit weight for each normalized state; a single-layer projection need not do so. Consequently, suppressed projected weight need not imply an absence of eigenvalues in the whole system.
+This is an orbital-partition weight, not a real-space integral over a geometrical slab. Summing over a complete partition of all orbital labels recovers unit weight for each normalized state. A single-layer projection need not do so. Consequently, suppressed projected weight need not imply an absence of eigenvalues in the whole system.
 
-A $\Gamma$-point supercell spectrum consists of discrete eigenvalues. Broadening it is not equivalent to a converged Brillouin-zone integration. In an unrotated $N\times N$ graphene cell, primitive-cell $K$ folds to the supercell $\Gamma$ only if $N$ is divisible by three; the present $N=25$ does not satisfy that condition. A Dirac cone therefore cannot be diagnosed from a $\Gamma$-only angle--DOS map. Its horizontal coordinate is twist angle, not wave vector.
+A $\Gamma$-point supercell spectrum consists of discrete eigenvalues. Broadening it is not equivalent to a converged Brillouin-zone integration. In an unrotated $N\times N$ graphene cell, primitive-cell $K$ folds to the supercell $\Gamma$ only if $N$ is divisible by three. The present $N=25$ does not satisfy that condition. A Dirac cone therefore cannot be diagnosed from a $\Gamma$-only angle--DOS map. Its horizontal coordinate is twist angle, not wave vector.
 
-Several distinctions matter for reproducibility. The 300-K Fermi--Dirac temperature sets occupations, whereas a Gaussian DOS width sets display broadening. The DOS print grid spacing is not automatically the postprocessing Gaussian width. Adding 300 molecular orbitals to the SCF diagonalization also does not by itself establish which unoccupied orbitals were written to every PDOS output; that requires the print settings and actual output. The supplied panels label their ordinate $E-E_F$ but do not explicitly print an energy unit or a calibrated color bar. Their original scale is retained here. Confirmation of the energy conversion, spin summation, normalization, broadening, and printed virtual-state range is needed before numerical gap widths can be reported in electronvolts. Separately shifting each configuration by its own $E_F$ can further obscure absolute spectral shifts.
+Several distinctions matter for reproducibility. The 300-K Fermi--Dirac temperature sets occupations, whereas a Gaussian DOS width sets display broadening. The DOS print grid spacing is not automatically the postprocessing Gaussian width. Adding 300 molecular orbitals to the SCF diagonalization also does not by itself establish which unoccupied orbitals were written to every PDOS output. That requires the print settings and actual output. The supplied panels label their ordinate $E-E_F$ but do not explicitly print an energy unit or a calibrated color bar. Their original scale is retained here. Confirmation of the energy conversion, spin summation, normalization, broadening, and printed virtual-state range is needed before numerical gap widths can be reported in electronvolts. Separately shifting each configuration by its own $E_F$ can further obscure absolute spectral shifts.
 
 \section{Tight-binding model and the small-energy-scale issue}
 
@@ -116,7 +118,7 @@ where $\bm a_1=(\sqrt3a,0)$, $\bm a_2=(\sqrt3a/2,3a/2)$, and $\bm b_s\in\{(0,0),
  X_{\theta,d}=\{(\bm r,0):\bm r\in P_R\}\cup
               \{(\mathsf R_\theta\bm r,d):\bm r\in P_R\}.
 \end{equation}
-Here $\mathsf R_\theta$ is a coordinate rotation matrix, not a Hilbert-space Hamiltonian. The operator $\hat H$ acts on orthonormal site states; its matrix elements are
+Here $\mathsf R_\theta$ is a coordinate rotation matrix, not a Hilbert-space Hamiltonian. The operator $\hat H$ acts on orthonormal site states. Its matrix elements are
 \begin{equation}
  H_{ij}=\begin{cases}
  t_0\exp(-|\bm x_i-\bm x_j|/\xi),&i\ne j,\\
@@ -162,7 +164,7 @@ The $\xi/a=0.03,0.1,0.3$ comparison is thus a family of different Hamiltonians, 
 
 \section{Independent numerical reproduction}
 
-The reproduced model uses $R/a=25$, giving 1510 sites in each layer and a $3020\times3020$ real-symmetric matrix. The earlier notebook example used a larger radius; it must not be confused with the latest parameter series. We evaluated all eigenvalues at 41 equally spaced angles from $0$ to $\pi/3$, inclusive, for five parameter combinations: $(d/a,\xi/a)=(0.99,0.03),(0.98,0.03),(0.97,0.03),(0.97,0.1),(0.97,0.3)$.
+The reproduced model uses $R/a=25$, giving 1510 sites in each layer and a $3020\times3020$ real-symmetric matrix. The earlier notebook example used a larger radius. It must not be confused with the latest parameter series. We evaluated all eigenvalues at 41 equally spaced angles from $0$ to $\pi/3$, inclusive, for five parameter combinations: $(d/a,\xi/a)=(0.99,0.03),(0.98,0.03),(0.97,0.03),(0.97,0.1),(0.97,0.3)$.
 
 The spectra at negative angles follow exactly from those at positive angles. Exchanging the two identical layers, applying a rigid in-plane rotation by $-\theta$, and reflecting the normal coordinate maps the pair $(P_R,\mathsf R_\theta P_R)$ to $(P_R,\mathsf R_{-\theta}P_R)$ up to relabeling. Pair distances are unchanged, so the Hamiltonians are related by a permutation and have identical eigenvalues. This gives an 81-angle display on $[-60^\circ,60^\circ]$. It does not establish exact $60^\circ$ periodicity of the finite site-centered disk: a honeycomb lattice centered on a carbon site has a different finite-boundary symmetry from one centered on a hexagon. Nor does it justify imposing a bulk periodicity on the angle-dependent DFT patches.
 
@@ -173,13 +175,13 @@ The plotted model DOS is
  \frac{\exp[-(\epsilon-\epsilon_n(\theta))^2/(2\overline\eta^2)]}
  {\sqrt{2\pi}\,\overline\eta},\qquad N=3020.
 \end{equation}
-Its integral over the entire real axis is one; it is not the unnormalized total number of states. Following the notebook convention, each parameter set uses the global spectral span over all sampled angles divided by 1000 as its Gaussian width. The width can therefore differ between panels. The original 500-point display grid had a spacing of about twice this width. We use 2001 points, approximately half the width, to sample the same kernel more smoothly. This improves rendering, not the underlying physical resolution. The common color scale is clipped above $\overline\rho=0.5$ to reveal weaker structures. The plotted energy window is $[-6,6]$ in units of $t_{\rm nn}$.
+Its integral over the entire real axis is one, not the unnormalized total number of states. Following the notebook convention, each parameter set uses the global spectral span over all sampled angles divided by 1000 as its Gaussian width. The width can therefore differ between panels. The original 500-point display grid had a spacing of about twice this width. We use 2001 points, approximately half the width, to sample the same kernel more smoothly. This improves rendering, not the underlying physical resolution. The common color scale is clipped above $\overline\rho=0.5$ to reveal weaker structures. The plotted energy window is $[-6,6]$ in units of $t_{\rm nn}$.
 
-The source package contains \texttt{analysis/reproduce\_tb.py}, \texttt{analysis/make\_figures.py}, and the eigenvalue arrays in \texttt{data/tb\_reproduction}. The first script constructs the normalized Hamiltonian directly and diagonalizes it with SciPy; the second computes the Gaussian DOS and assembles the figures. These are independent finite-size reproductions of the notebook model, not a new DFT calculation, a thermodynamic-limit extrapolation, or a computation of topological invariants.
+The source package contains \texttt{analysis/reproduce\_tb.py}, \texttt{analysis/make\_figures.py}, and the eigenvalue arrays in \texttt{data/tb\_reproduction}. The first script constructs the normalized Hamiltonian directly and diagonalizes it with SciPy. The second computes the Gaussian DOS and assembles the figures. These are independent finite-size reproductions of the notebook model, not a new DFT calculation, a thermodynamic-limit extrapolation, or a computation of topological invariants.
 
 \section{What would establish a topological gap?}
 
-The acoustic experiment motivating this study combined spectral measurements with boundary-state evolution under a controllable phason~\cite{ni2019}. Twisted mechanical bilayers supplied a more direct setting in which incommensurate geometry organizes gaps through higher-dimensional topology~\cite{rosa2021}. Neither precedent establishes topology from the appearance of a DOS image alone. A two-dimensional bilayer has two relative-translation coordinates, providing a natural phason torus; these are distinct from the twist angle. Sliding responses and bilayer gap-labeling frameworks make that distinction explicit~\cite{su2020,fujimoto2020,yoshii2023}.
+The acoustic experiment motivating this study combined spectral measurements with boundary-state evolution under a controllable phason~\cite{ni2019}. Twisted mechanical bilayers supplied a more direct setting in which incommensurate geometry organizes gaps through higher-dimensional topology~\cite{rosa2021}. Neither precedent establishes topology from the appearance of a DOS image alone. A two-dimensional bilayer has two relative-translation coordinates, providing a natural phason torus. These coordinates are distinct from the twist angle. Sliding responses and bilayer gap-labeling frameworks make that distinction explicit~\cite{su2020,fujimoto2020,yoshii2023}.
 
 For a bulk operator, the integrated DOS is defined using a trace per volume,
 \begin{equation}
@@ -193,9 +195,9 @@ In the noncommutative-torus construction of Ref.~\cite{rosa2021}, a gap's integr
  +n_{\{1,4\}}A_{12}+n_{\{2,3\}}A_{21}
  +n_{\{2,4\}}A_{22}+n_{\{1,2,3,4\}}\det A.
 \end{equation}
-The two-index and four-index integer labels refer to the four-dimensional algebra, whereas the indices of $A$ refer to the two-dimensional lattice geometry. This expression is framework- and normalization-dependent; it is not a universal fitting formula for the supplied CP2K maps. Moreover, if the geometric family has $\det A=1$, its trace constrains the constant combination $n_{\varnothing}+n_{\{1,2,3,4\}}$ rather than separately identifying the second-Chern coefficient. A spectral fit along that family alone therefore cannot provide a unique second-Chern assignment.
+The two-index and four-index integer labels refer to the four-dimensional algebra, whereas the indices of $A$ refer to the two-dimensional lattice geometry. This expression is framework- and normalization-dependent, not a universal fitting formula for the supplied CP2K maps. Moreover, if the geometric family has $\det A=1$, its trace constrains the constant combination $n_{\varnothing}+n_{\{1,2,3,4\}}$ rather than separately identifying the second-Chern coefficient. A spectral fit along that family alone therefore cannot provide a unique second-Chern assignment.
 
-Establishing the proposed connection requires candidate gaps that survive size, boundary, reciprocal-space, and numerical convergence tests, followed by a justified gap-label or phason-response calculation for the corresponding bulk projector. No such label, Chern number, quantized pump, or physical Hall response is reported here. The real hopping Hamiltonian carries no magnetic flux; synthetic-dimensional topology must not be conflated with the magnetic Hofstadter mechanism.
+Establishing the proposed connection requires candidate gaps that survive size, boundary, reciprocal-space, and numerical convergence tests, followed by a justified gap-label or phason-response calculation for the corresponding bulk projector. No such label, Chern number, quantized pump, or physical Hall response is reported here. The real hopping Hamiltonian carries no magnetic flux. Synthetic-dimensional topology must not be conflated with the magnetic Hofstadter mechanism.
 
 \section{Matched references and outstanding controls}
 
@@ -215,7 +217,7 @@ Other outstanding controls are: completed SCF output for every column; spin and 
 \section{Complete first-principles image survey}
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{figures/dft_survey_1.pdf}
-\caption{Original SZV lower-layer projected DOS panels for $d=3.30$, $3.00$, $2.85$, $2.70$, $2.55$, and $2.30\,\angstrom$. Axes, colors, and missing columns are preserved. The displayed ordinate is the original $E-E_F$ scale; no calibrated common color scale is asserted. The full angular axes should not be mistaken for a larger sampled interval.}
+\caption{Original SZV lower-layer projected DOS panels for $d=3.30$, $3.00$, $2.85$, $2.70$, $2.55$, and $2.30\,\angstrom$. Axes, colors, and missing columns are preserved. The displayed ordinate is the original $E-E_F$ scale. No calibrated common color scale is asserted. The full angular axes should not be mistaken for a larger sampled interval.}
 \end{figure}
 
 \clearpage

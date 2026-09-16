@@ -6,7 +6,8 @@
 - Integrated the discussion from the earlier analysis of Emil's energy scale.
 - Assembled the full supplied DFT image survey, including the SZV/DZVP comparison. Original DFT image data were retained without recoloring or interpolation.
 - Added geometry illustrations, an angle-dependent atom-count analysis, and independently regenerated tight-binding DOS figures.
-- Checked 19 primary-literature references and distinguished the proposed contribution from prior acoustic, mechanical-bilayer, and compressed-graphene work.
+- Checked the 20 currently cited primary-literature references and distinguished the proposed contribution from prior acoustic, mechanical-bilayer, and compressed-graphene work.
+- Added CP2K Made Simple (2026) and used the UZH protocol as the combined basis-set/pseudopotential methods reference. Clarified the role of D3 in graphene interlayer binding, supported by a comparative study, without implying a direct effect on fixed-geometry Kohn-Sham eigenvalues. Reduced unnecessary semicolons in both documents.
 
 ## Methods and numerical checks
 
