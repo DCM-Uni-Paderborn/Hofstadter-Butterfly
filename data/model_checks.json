@@ -1,0 +1,59 @@
+{
+  "small_test_matrix_dimension": 62,
+  "energy_rescaling_error": 3.3306690738754696e-15,
+  "angle_reflection_eigenvalue_error": 4.884981308350689e-15,
+  "dos_jacobian_error": 6.661338147750939e-16,
+  "verified_arrays": [
+    {
+      "file": "R25_d0.97_xi0.03.npz",
+      "shape": [
+        41,
+        3020
+      ],
+      "maximum_trace_error": 9.094947017729282e-13,
+      "minimum_eigenvalue": -5.711551773282608,
+      "maximum_eigenvalue": 5.711563951576797
+    },
+    {
+      "file": "R25_d0.97_xi0.1.npz",
+      "shape": [
+        41,
+        3020
+      ],
+      "maximum_trace_error": 9.094947017729282e-13,
+      "minimum_eigenvalue": -4.28092103356627,
+      "maximum_eigenvalue": 4.406247199404145
+    },
+    {
+      "file": "R25_d0.97_xi0.3.npz",
+      "shape": [
+        41,
+        3020
+      ],
+      "maximum_trace_error": 4.547473508864641e-13,
+      "minimum_eigenvalue": -3.058360078814415,
+      "maximum_eigenvalue": 5.8600411136389905
+    },
+    {
+      "file": "R25_d0.98_xi0.03.npz",
+      "shape": [
+        41,
+        3020
+      ],
+      "maximum_trace_error": 9.094947017729282e-13,
+      "minimum_eigenvalue": -4.941005250003696,
+      "maximum_eigenvalue": 4.941014900046974
+    },
+    {
+      "file": "R25_d0.99_xi0.03.npz",
+      "shape": [
+        41,
+        3020
+      ],
+      "maximum_trace_error": 4.547473508864641e-13,
+      "minimum_eigenvalue": -4.388884640357925,
+      "maximum_eigenvalue": 4.38889227775555
+    }
+  ],
+  "scope": "Consistency only; no DFT validation, topology, or finite-size convergence."
+}
