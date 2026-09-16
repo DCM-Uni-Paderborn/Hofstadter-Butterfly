@@ -222,7 +222,7 @@ Orthogonalization at a fixed geometry is insufficient for a phason derivative if
 \end{equation}
 The second term accounts for basis motion. Omitting it is justified only when the chosen representation makes it vanish or when an equivalent covariant overlap construction already includes it. Discrete overlaps between physical states at neighboring geometries offer a practical route, provided the cross-geometry basis overlaps are treated consistently. A basis-invariant spectrum at every geometry does not, by itself, guarantee a basis-consistent Berry curvature across geometries.
 
-Electronic-structure packages such as CP2K provide a route to atomistic Hamiltonians and state-resolved quantities~\cite{cp2k2020,cp2k2026}. The UZH protocol illustrates why basis-set and pseudopotential errors should be separated~\cite{uzh2026perspective}. These controls remain necessary when the target quantity is topological. They do not establish that the self-consistent effective Hamiltonian defines the required covariant, smoothly parameterized family. Consistent spin treatment, structural relaxation, and branch selection of the self-consistent solution are additional requirements. A Kohn--Sham spectral gap must also be distinguished from a many-body excitation gap.
+Electronic-structure packages such as CP2K provide a route to atomistic Hamiltonians and state-resolved quantities~\cite{cp2k2020,cp2k2026}. The UZH protocol illustrates why basis-set and pseudopotential errors should be separated~\cite{uzh2026}. These controls remain necessary when the target quantity is topological. They do not establish that the self-consistent effective Hamiltonian defines the required covariant, smoothly parameterized family. Consistent spin treatment, structural relaxation, and branch selection of the self-consistent solution are additional requirements. A Kohn--Sham spectral gap must also be distinguished from a many-body excitation gap.
 
 \section{A hierarchy of evidence for atomistic gap labeling}
 
@@ -278,7 +278,7 @@ This perspective is dedicated to Jean Bellissard on the occasion of his eightiet
 The source of this article, the bilayer model code and eigenvalue files, the spectral-moment analysis, and its tabulated output are available in \url{https://github.com/DCM-Uni-Paderborn/Hofstadter-Butterfly}. The reproducible analysis for Fig.~\ref{fig:moments} is \texttt{analysis/bellissard\_model\_moments.py}.
 
 \paragraph{Use of AI-assisted tools.}
-AI-assisted tools were used in drafting the text and developing the analysis script.
+AI-assisted tools were used in developing the analysis script.
 
 \bibliographystyle{unsrtnat}
 \bibliography{references,bellissard_references}
