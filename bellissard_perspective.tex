@@ -35,7 +35,7 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-Bellissard's formulation of solid-state physics replaces periodicity as the organizing principle by an algebra of covariant observables. This perspective provides a natural language for quasiperiodic bilayers, but its connection to atomistic electronic-structure calculations requires care. We explain the passage from a family of geometries to a bulk spectral projector, its integrated density of states, and the topological pairings that describe phason-dependent response. A finite honeycomb-bilayer model illustrates how interlayer coupling reorganizes spectral moments. We then distinguish a Hamiltonian operator from its nonorthogonal matrix representation, and a bulk state count from a layer-projected density of states. The resulting framework identifies which numerical observations are evidence for hybridization, which are necessary for gap labeling, and which additional calculations support a quantized response. The aim is a practical connection between Bellissard's mathematical viewpoint and atomistic modeling.
+Bellissard's formulation of solid-state physics replaces periodicity as the organizing principle by an algebra of covariant observables. We use this viewpoint to connect butterfly-like spectra in quasiperiodic bilayers to the quantities required for gap labeling and topological response. The route has three stages: resolve a bulk spectral gap, count states through its spectral projector, and evaluate the topological pairing relevant to the proposed response. A finite honeycomb-bilayer model makes the first diagnostic steps concrete through spectral moments, angle-resolved spectra, and an uncoupled-layer reference. Selected-angle size and broadening tests distinguish persistent coupling-induced redistribution from resolution-sensitive DOS structure. For atomistic calculations, we explain how nonorthogonal basis sets, layer projections, and moving basis functions enter the construction of physically consistent projectors and parameter derivatives. The resulting framework turns a spectral observation into a sequence of testable calculations linking geometry, state counting, and response.
 \end{abstract}
 
 \section{Bellissard's viewpoint beyond periodic crystals}
@@ -167,7 +167,7 @@ Figure~\ref{fig:moments} evaluates this decomposition for $R/a=25$ and $\xi/a=0.
 
 The relation to Bellissard's viewpoint is the distinction between a finite normalized trace and a bulk trace on a specified algebra. A second moment averages a polynomial of the Hamiltonian. Gap labeling instead concerns the trace of a spectral projection, whose existence as a stable bulk object requires a gap. A growing $\mu_2$ establishes a growing spectral variance but does not imply a new gap, a fractal spectrum, or a nonzero Chern number. Even fully converged spectral moments would not replace the projector and response calculations in Eqs.~\eqref{eq:ids} and~\eqref{eq:pump}.
 
-The disk geometry makes the finite calculation reproducible and treats the two layers symmetrically. It does not eliminate boundaries. Registry-sensitive peaks in Fig.~\ref{fig:moments} should therefore not be interpreted as bulk singularities without a size and angular-resolution study. Nor does equality of two DOS maps establish equality of their projectors, since the eigenvectors contain information that the DOS discards.
+The disk geometry makes the finite calculation reproducible and treats the two layers symmetrically. Its open boundaries motivate the size checks at representative registries below. Spectral information and projector information remain distinct: equality of two DOS maps does not establish equality of their projectors, since the eigenvectors contain information that the DOS discards.
 
 \subsection{From butterfly spectra to state counting}
 
@@ -185,11 +185,34 @@ Here the normalization is per site state, so $F_R$ runs from zero to one. At a f
 \begin{figure}[!t]
  \centering
  \includegraphics[width=\textwidth]{figures/bellissard_butterfly_ids.pdf}
- \caption{Butterfly-like spectral reconstruction and finite state counting in the bilayer model. (a,b) DOS maps for $d/a=0.99$ and $0.97$, with $R/a=25$, $\xi/a=0.03$, and 1510 sites in each open disk. The angle spacing is $0.25^\circ$. The DOS integrates to one and uses a common Gaussian width $\eta/t_{\mathrm{nn}}=0.02$ and color scale, clipped above $t_{\mathrm{nn}}\rho_\eta=0.5$. Dashed lines identify the $30^\circ$ cross sections. (c) DOS at that angle. (d) The exact normalized eigenvalue count, Eq.~\eqref{eq:finite-count}, for the same two spectra. The inset enlarges the upper-energy part of the counting functions.}
+ \caption{Butterfly-like spectral reconstruction and finite state counting in the bilayer model. (a,b) DOS maps for $d/a=0.99$ and $0.97$, with $R/a=25$, $\xi/a=0.03$, and 1510 sites in each open disk. The angle spacing is $0.25^\circ$. The DOS integrates to one and uses a common Gaussian width $\eta/t_{\mathrm{nn}}=0.02$ and color scale, clipped above $t_{\mathrm{nn}}\rho_\eta=0.5$. White dashed lines identify the $30^\circ$ cross sections. (c) DOS at that angle, without intensity clipping. (d) The exact normalized eigenvalue count, Eq.~\eqref{eq:finite-count}, with an upper-energy inset. Black dashed curves in (c,d) give the corresponding uncoupled-layer reference, $\bm B=0$, with the same geometry and per-state normalization.}
  \label{fig:butterfly}
 \end{figure}
 
 Equation~\eqref{eq:finite-count} supplies a concrete finite-dimensional counterpart of the spectral-projector trace in Eq.~\eqref{eq:ids}. Passing to that bulk quantity entails increasing $R$, controlling the boundary contribution, and converting the per-state normalization to the cell or area normalization of the chosen trace. Bellissard's gap labels constrain the resulting bulk state count. The butterfly map, the counting function, and the convergence procedure thus play distinct, complementary roles.
+
+\subsection{Uncoupled reference and resolution controls}
+
+Setting $\bm B=0$ in Eq.~\eqref{eq:block} gives $\bm h_0=\bm D\oplus\bm D$ without changing the intralayer geometry or energy scale. Every monolayer eigenvalue then occurs twice, so division by $2N$ yields exactly the single-layer DOS and counting function. The reference is independent of $\theta$ and $d$. Its comparison with the coupled spectra in Fig.~\ref{fig:butterfly}(c,d) isolates interlayer-induced redistribution at a common energy origin.
+
+We test $R/a=20,25,30$, containing $N=979,1510,2167$ sites per layer, at $\theta=0^\circ,15^\circ,30^\circ$ and both plotted separations. These angles sample aligned, intermediate, and $30^\circ$ registries. Gaussian widths $s=\eta/t_{\mathrm{nn}}=0.01,0.02,0.04$ bracket the displayed value. Two complementary measures quantify size sensitivity: $\mathcal W_{R,R'}=\int|F_R-F_{R'}|\,\dd\epsilon$ uses the exact unbroadened state counts, while $\mathcal L_s=\int|\bar\rho_{R,s}-\bar\rho_{R',s}|\,\dd\epsilon$ compares the normalized DOS, with $\bar\rho_s(\epsilon)=t_{\mathrm{nn}}\rho_\eta(t_{\mathrm{nn}}\epsilon)$. The latter integral is evaluated on a grid of spacing $0.0025$ over $[-7,7]$, which contains the spectra and Gaussian tails to numerical precision.
+
+\begin{table}[!ht]
+ \centering
+ \small
+ \caption{Finite-size and broadening controls. Each entry is the maximum over the six angle--distance combinations at fixed $\xi/a=0.03$. The count distance $\mathcal W$ is in dimensionless energy units. The DOS difference $\mathcal L_s$ lies between zero and two.}
+ \label{tab:resolution}
+ \begin{tabular}{@{}ccccc@{}}
+ \toprule
+ $R/a\to R'/a$ & $\max\mathcal W$ & $\max\mathcal L_{0.01}$ & $\max\mathcal L_{0.02}$ & $\max\mathcal L_{0.04}$ \\
+ \midrule
+ $20\to25$ & 0.01592 & 0.2971 & 0.1465 & 0.0872 \\
+ $25\to30$ & 0.00919 & 0.2083 & 0.1114 & 0.0668 \\
+ \bottomrule
+ \end{tabular}
+\end{table}
+
+The size differences decrease for every sampled angle and separation, both in $\mathcal W$ and at each fixed width. Smoothing reduces the DOS difference further, as expected, so it is assessed alongside the unbroadened count rather than as a separate demonstration of convergence. At $30^\circ$, the count distance from the uncoupled reference changes from $0.04544$ to $0.04602$ for $d/a=0.99$ and from $0.13345$ to $0.13494$ for $d/a=0.97$ when $R/a$ increases from 25 to 30. The coupling-induced redistribution thus persists, while the narrowest-width DOS retains appreciable finite-size structure. A candidate bulk gap requires a persistent depleted interval under further size and boundary controls, beyond the plateaus that occur automatically between consecutive finite-system eigenvalues.
 
 \section{From nonorthogonal matrices to physical observables}
 
@@ -287,17 +310,17 @@ Only after this stage should an IDS plateau be compared with the trace range of 
 
 \section{Perspective}
 
-Bellissard's work supplies an organizing principle that is especially useful at the boundary between ideal models and atomistic calculations: define the algebra of observables, identify the bulk trace, and only then ask which topological information a computed quantity carries. The finite bilayer calculation here illustrates the first diagnostic stage. Interlayer coupling contributes a precisely identifiable amount to the spectral variance, and its registry dependence provides a concrete link between geometry and spectral reconstruction.
+Bellissard's work turns the interpretation of quasiperiodic spectra into a constructive program: establish the bulk spectral object, count its states with the appropriate trace, and compute the pairing that describes the desired response. The bilayer calculations illustrate how this program begins. An exact moment identity identifies the interlayer contribution to spectral variance, the uncoupled reference isolates its energy-resolved redistribution, and size and broadening controls assess the resolution of that observation. Together, these diagnostics connect geometry to spectral reconstruction before an integer label is assigned.
 
 The further passage to atomistic quasiperiodic bilayers is demanding but well posed. Nonorthogonal basis sets require metric-aware projectors, moving atoms require basis-consistent parameter derivatives, and self-consistency requires a reproducible covariant branch of solutions. Relaxation can change the pattern space itself, so its effect is not always captured by adding a small perturbation to a fixed Hamiltonian. These are opportunities for a closer interaction between electronic-structure methods and noncommutative geometry rather than reasons to separate the subjects.
 
-The most useful legacy of gap labeling for this program is thus not a visual template for spectra. It is a disciplined connection between geometry, state counting, and response. Keeping these three levels distinct makes it possible to use simple model calculations constructively while identifying exactly what a materials calculation must establish before a topological conclusion follows.
+The next calculations follow directly from this separation of tasks. A candidate spectral feature must be followed to a stable bulk gap, its projector must yield a consistently normalized state count, and a proposed pumping or Hall response must be tested through the corresponding topological pairing and its physical consequences. This is the practical connection between geometry, state counting, and response that makes Bellissard's framework useful for atomistic materials modeling.
 
 \paragraph{Acknowledgment.}
 This perspective is dedicated to Jean Bellissard on the occasion of his eightieth birthday and to the continuing influence of his work on the mathematics and physics of aperiodic solids.
 
 \paragraph{Data and code availability.}
-The source of this article, the bilayer model code and eigenvalue files, the spectral-moment analysis, and the refined butterfly and state-count data are available in \url{https://github.com/DCM-Uni-Paderborn/Hofstadter-Butterfly}. The reproduction scripts in the \texttt{analysis/} directory are \texttt{bellissard\_model\_moments.py} for Fig.~\ref{fig:moments} and \texttt{bellissard\_butterfly.py} for Fig.~\ref{fig:butterfly}.
+The source of this article, the bilayer eigenvalues, the spectral-moment and butterfly data, and the uncoupled-reference and resolution controls are available in \url{https://github.com/DCM-Uni-Paderborn/Hofstadter-Butterfly}. The scripts in \texttt{analysis/} are \texttt{bellissard\_model\_moments.py} for Fig.~\ref{fig:moments}, \texttt{bellissard\_robustness.py} for Table~\ref{tab:resolution} and the uncoupled reference, and \texttt{bellissard\_butterfly.py} for Fig.~\ref{fig:butterfly}.
 
 \paragraph{Use of AI-assisted tools.}
 AI-assisted tools were used in developing the analysis script.

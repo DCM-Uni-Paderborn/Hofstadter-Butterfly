@@ -127,6 +127,7 @@ def make_figure(paths):
               'energy_grid_step': float(grid[1]-grid[0]),
               'normalization': 'one state (2N=3020)',
               'cross_section_degrees': 30.0, 'series': []}
+    cross_section_max = 0.0
     for col, (path, color) in enumerate(zip(paths, colors)):
         with np.load(path) as result:
             angles = np.degrees(result['theta'])
@@ -147,6 +148,7 @@ def make_figure(paths):
         pick = int(np.argmin(abs(angles - 30.0)))
         assert np.isclose(angles[pick], 30.0)
         values = spectra[pick]
+        cross_section_max = max(cross_section_max, float(rho[:, pick].max()))
         axes[1, 0].plot(grid, rho[:, pick], color=color, linewidth=1.0,
                         label=rf'$d/a={distance:.2f}$')
         # Exact, unbroadened empirical state count. Values below/above the
@@ -170,9 +172,35 @@ def make_figure(paths):
                             count_energy=positions, normalized_count=counts)
         print(f'Rendered d/a={distance:.2f}; maximum DOS integral error '
               f'{np.max(abs(integrals-1)):.3g}', flush=True)
+    # With B=0, each monolayer eigenvalue occurs twice in the bilayer.
+    # Dividing by 2N leaves exactly the monolayer DOS and state count.
+    with np.load(ROOT / 'data' / 'bellissard_robustness' /
+                 'R25_controls.npz') as reference:
+        mono = reference['monolayer_eigenvalues']
+        assert len(mono) == 1510
+    reference_dos = density(mono, grid, SIGMA)
+    assert abs(np.trapezoid(reference_dos, grid)-1) < 1e-10
+    cross_section_max = max(cross_section_max, float(reference_dos.max()))
+    positions = np.r_[grid[0], mono, grid[-1]]
+    counts = np.r_[0.0, np.arange(1, len(mono)+1)/len(mono), 1.0]
+    axes[1, 0].plot(grid, reference_dos, color='#333333', linestyle='--',
+                    linewidth=1.0, label=r'$B=0$')
+    axes[1, 1].step(positions, counts, where='post', color='#333333',
+                    linestyle='--', linewidth=1.0, label=r'$B=0$')
+    inset.step(positions, counts, where='post', color='#333333',
+               linestyle='--', linewidth=0.8)
+    np.savez_compressed(OUT / 'decoupled_reference.npz', energy_grid=grid,
+                        dos=reference_dos, sigma=SIGMA,
+                        monolayer_eigenvalues=mono, count_energy=positions,
+                        normalized_count=counts, R=25.0, xi=0.03)
+    report['decoupled_reference'] = {
+        'sites_per_layer': len(mono), 'bilayer_state_count': 2*len(mono),
+        'DOS_integral_error': float(abs(np.trapezoid(reference_dos, grid)-1)),
+        'maximum_DOS': float(reference_dos.max()),
+        'normalization': 'one state; identical to single-layer DOS'}
     fig.colorbar(mesh, ax=list(axes[0]), label=r'$t_{\mathrm{nn}}\rho_\eta(E)$',
                  shrink=0.93, pad=0.025, extend='max')
-    axes[1, 0].set(xlim=(-4.2, 4.2), ylim=(0, 0.5), xlabel=r'Energy $\epsilon$',
+    axes[1, 0].set(xlim=(-4.2, 4.2), ylim=(0, 1.05*cross_section_max), xlabel=r'Energy $\epsilon$',
                    ylabel=r'$t_{\mathrm{nn}}\rho_\eta(E)$')
     axes[1, 0].set_title(r'(c) DOS at $\theta=30^\circ$', loc='left')
     axes[1, 1].set(xlim=(-4.2, 4.2), ylim=(0, 1), xlabel=r'Energy $\epsilon$',
@@ -181,6 +209,7 @@ def make_figure(paths):
     for ax in axes[1]:
         ax.legend(frameon=False, loc='upper left')
         ax.spines[['top', 'right']].set_visible(False)
+    axes[1, 0].legend(frameon=False, loc='upper right')
     fig.savefig(ROOT / 'figures' / 'bellissard_butterfly_ids.pdf', dpi=400)
     (ROOT / 'output' / 'pdf').mkdir(parents=True, exist_ok=True)
     shutil.copyfile(ROOT / 'figures' / 'bellissard_butterfly_ids.pdf',
@@ -193,7 +222,10 @@ def make_figure(paths):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--plot-only', action='store_true')
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument('--plot-only', action='store_true')
+    mode.add_argument('--calculate-only', action='store_true',
+                      help='generate spectra before calculating reference controls')
     args = parser.parse_args()
     OUT.mkdir(parents=True, exist_ok=True)
     SCRATCH.mkdir(parents=True, exist_ok=True)
@@ -204,4 +236,5 @@ if __name__ == '__main__':
     else:
         with ProcessPoolExecutor(max_workers=2) as pool:
             files = list(pool.map(calculate, DISTANCES))
-    make_figure(files)
+    if not args.calculate_only:
+        make_figure(files)

@@ -12,8 +12,8 @@ The PRL-format Letter and its supplement are by Vladislav Efremkin, Thomas D. KÃ
 - `main.tex`: Letter in REVTeX 4.2.
 - `supplement.tex`: input audit, complete DFT survey, model normalization and reproducibility, and necessary controls.
 - `bellissard_perspective.tex`: independent conceptual article, *From Bellissard's gap labeling to atomistic quasiperiodic bilayers*.
-- [Perspective PDF](output/pdf/bellissard_perspective.pdf), with finite-model spectral moments, refined butterfly spectra, and integrated state counts.
-- [Butterfly and state-count figure](figures/bellissard_butterfly_ids.pdf): two refined angle scans and their DOS/counting-function cross sections.
+- [Perspective PDF](output/pdf/bellissard_perspective.pdf), with finite-model spectral moments, refined butterfly spectra, integrated state counts, and compact resolution controls.
+- [Butterfly and state-count figure](figures/bellissard_butterfly_ids.pdf): two refined angle scans and their DOS/counting-function cross sections, including an uncoupled-layer reference.
 - `bellissard_references.bib`: additional references for the perspective.
 - `references.bib`: DOI-checked primary literature.
 - `figures/`: PDF figures used by the two documents.
@@ -21,6 +21,7 @@ The PRL-format Letter and its supplement are by Vladislav Efremkin, Thomas D. KÃ
 - `data/structures_d2p15/`: 51 supplied coordinate/input configurations.
 - `data/tb_reproduction/`: independently calculated dimensionless eigenvalues.
 - `data/bellissard_butterfly/`: 241-angle model spectra, DOS, exact finite state counts, and numerical checks for the perspective.
+- `data/bellissard_robustness/`: three-radius, three-width controls, uncoupled-layer spectra, and per-case numerical comparisons.
 - `analysis/`: model reproduction, figure generation, and consistency checks.
 
 Private correspondence, account information, mail exports, and internal working or validation notes are not part of the manuscript package. Cluster submission scripts are excluded from the distributable archive; they are not required to compile the paper.
@@ -46,12 +47,16 @@ python analysis/reproduce_tb.py --distances 0.97 --xi 0.3
 python analysis/check_model.py
 python analysis/make_figures.py
 python analysis/bellissard_model_moments.py
-python analysis/bellissard_butterfly.py
+python analysis/bellissard_butterfly.py --calculate-only
+python analysis/bellissard_robustness.py
+python analysis/bellissard_butterfly.py --plot-only
 ```
 
 Existing model-result files are preserved rather than silently recalculated. Delete or move a specific result only if deliberately requesting a fresh run. Default calculations are five sets of 41 dense 3020-dimensional diagonalizations and may take appreciable time on a different machine.
 
-The separate butterfly script refines two of those distance series to 241 angles, retaining the 41 archived spectra in each series and calculating 200 additional angles per distance. It uses two worker processes with three numerical-library threads each. Checkpoints are stored under `tmp/`, outside the archive. Use `python analysis/bellissard_butterfly.py --plot-only` to regenerate its figure from the completed data without diagonalizations. Both DOS maps use the same Gaussian width of 0.02 in nearest-neighbor hopping units. The normalized finite state count is calculated without broadening.
+The separate butterfly script refines two of those distance series to 241 angles, retaining the 41 archived spectra in each series and calculating 200 additional angles per distance. It uses two worker processes with three numerical-library threads each. Checkpoints are stored under `tmp/`, outside the archive. Both DOS maps use the same Gaussian width of 0.02 in nearest-neighbor hopping units. The normalized finite state count is calculated without broadening. The figure additionally requires the uncoupled reference from the robustness script. All required data are included in this archive. For a fresh calculation without archived control data, run `python analysis/bellissard_butterfly.py --calculate-only`, then `python analysis/bellissard_robustness.py`, then `python analysis/bellissard_butterfly.py --plot-only`.
+
+The robustness script tests R/a = 20, 25, 30 (979, 1510, 2167 sites per layer), angles 0, 15, 30 degrees, both distances 0.99 and 0.97, and Gaussian widths 0.01, 0.02, 0.04. It retains the six matching R/a = 25 spectra, calculates twelve additional bilayer spectra and three monolayer spectra, and archives normalized DOS arrays on an energy grid of spacing 0.0025. The uncoupled bilayer has two copies of the monolayer spectrum, hence the same per-state DOS. The exact integral of the absolute difference of state counts is independently checked against the one-dimensional Wasserstein distance. DOS normalization, Gaussian second moments, and the interlayer trace identity are also checked. These selected-angle controls assess finite-size sensitivity, not a bulk extrapolation or topological invariant.
 
 Verified development environment: Python 3.12.14, NumPy 2.5.3, SciPy 1.18.1, Matplotlib 3.11.2, and Pillow 12.3.0; TeX Live 2025. The original CP2K version requires confirmation from run headers. The supplied job script names CP2K/2023.1.
 

@@ -25,5 +25,12 @@
       "maximum_DOS": 0.5291164995603803,
       "color_clipped_fraction": 2.9379183293268192e-05
     }
-  ]
+  ],
+  "decoupled_reference": {
+    "sites_per_layer": 1510,
+    "bilayer_state_count": 3020,
+    "DOS_integral_error": 0.0,
+    "maximum_DOS": 0.4839076836503422,
+    "normalization": "one state; identical to single-layer DOS"
+  }
 }
