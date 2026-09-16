@@ -1,9 +1,14 @@
-# Twisted graphene: PRL-format author-review draft
+# Hofstadter Butterfly
+
+Manuscript archive for the twisted-graphene project by Vladislav Efremkin, Thomas D. Kuehne, and Emil Prodan.
+
+The working manuscript is also available in [Overleaf](https://www.overleaf.com/project/6aaa40e72ddf45865b2e3bce). Updates between the two services are manual; this repository is not automatically synchronized with Overleaf.
 
 This package contains a PRL-format Letter and a detailed supplement based on the supplied Efremkin/Prodan material. It is an author-review draft, not a submission-ready claim of a topological phase. The source DFT image data have not been altered.
 
 ## Contents
 
+- [Manuscript PDF](output/pdf/twisted_graphene_letter.pdf) and [Supplemental Material PDF](output/pdf/twisted_graphene_supplement.pdf).
 - `main.tex`: Letter in REVTeX 4.2.
 - `supplement.tex`: input audit, complete DFT survey, model normalization and reproducibility, and necessary controls.
 - `references.bib`: DOI-checked primary literature.
