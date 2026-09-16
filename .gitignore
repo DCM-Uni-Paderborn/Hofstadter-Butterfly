@@ -10,4 +10,5 @@ output/
 *.out
 *.synctex.gz
 *.zip
+__pycache__/
 **/jobscript.subm

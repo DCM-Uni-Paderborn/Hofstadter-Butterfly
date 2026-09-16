@@ -169,6 +169,28 @@ The relation to Bellissard's viewpoint is the distinction between a finite norma
 
 The disk geometry makes the finite calculation reproducible and treats the two layers symmetrically. It does not eliminate boundaries. Registry-sensitive peaks in Fig.~\ref{fig:moments} should therefore not be interpreted as bulk singularities without a size and angular-resolution study. Nor does equality of two DOS maps establish equality of their projectors, since the eigenvectors contain information that the DOS discards.
 
+\subsection{From butterfly spectra to state counting}
+
+Spectral moments summarize the redistribution of eigenvalues, whereas an angle-resolved spectral map reveals its internal structure. Figure~\ref{fig:butterfly} resolves this structure at two interlayer separations using 241 angles between $0^\circ$ and $60^\circ$. The same dimensionless Gaussian width, $\eta/t_{\mathrm{nn}}=0.02$, and the same color scale are used throughout. Decreasing the separation strengthens the interlayer coupling and reorganizes the curved spectral branches. These maps give an energy-resolved view of the coupling contribution isolated by Eq.~\eqref{eq:moment}.
+
+The corresponding finite state count is
+\begin{equation}
+ F_R(\epsilon;\theta)=\frac{1}{2N}\sum_{\nu=1}^{2N}
+ \mathbf{1}_{\{\epsilon_\nu(\theta)\leq\epsilon\}}
+ =\frac{1}{2N}\Tr\mathbf{1}_{(-\infty,\epsilon]}(\bm h_\theta).
+ \label{eq:finite-count}
+\end{equation}
+Here the normalization is per site state, so $F_R$ runs from zero to one. At a fixed angle, the DOS and $F_R$ display complementary aspects of the same eigenvalues: spectral peaks describe where states accumulate, while horizontal intervals of $F_R$ identify intervals containing no finite-system eigenvalues. The $30^\circ$ cross sections in Fig.~\ref{fig:butterfly} make this connection explicit. Gaussian broadening is applied to the displayed DOS, while the state count is evaluated directly from the unbroadened eigenvalues.
+
+\begin{figure}[!t]
+ \centering
+ \includegraphics[width=\textwidth]{figures/bellissard_butterfly_ids.pdf}
+ \caption{Butterfly-like spectral reconstruction and finite state counting in the bilayer model. (a,b) DOS maps for $d/a=0.99$ and $0.97$, with $R/a=25$, $\xi/a=0.03$, and 1510 sites in each open disk. The angle spacing is $0.25^\circ$. The DOS integrates to one and uses a common Gaussian width $\eta/t_{\mathrm{nn}}=0.02$ and color scale, clipped above $t_{\mathrm{nn}}\rho_\eta=0.5$. Dashed lines identify the $30^\circ$ cross sections. (c) DOS at that angle. (d) The exact normalized eigenvalue count, Eq.~\eqref{eq:finite-count}, for the same two spectra. The inset enlarges the upper-energy part of the counting functions.}
+ \label{fig:butterfly}
+\end{figure}
+
+Equation~\eqref{eq:finite-count} supplies a concrete finite-dimensional counterpart of the spectral-projector trace in Eq.~\eqref{eq:ids}. Passing to that bulk quantity entails increasing $R$, controlling the boundary contribution, and converting the per-state normalization to the cell or area normalization of the chosen trace. Bellissard's gap labels constrain the resulting bulk state count. The butterfly map, the counting function, and the convergence procedure thus play distinct, complementary roles.
+
 \section{From nonorthogonal matrices to physical observables}
 
 \subsection{A change of representation is not a change of Hamiltonian}
@@ -275,7 +297,7 @@ The most useful legacy of gap labeling for this program is thus not a visual tem
 This perspective is dedicated to Jean Bellissard on the occasion of his eightieth birthday and to the continuing influence of his work on the mathematics and physics of aperiodic solids.
 
 \paragraph{Data and code availability.}
-The source of this article, the bilayer model code and eigenvalue files, the spectral-moment analysis, and its tabulated output are available in \url{https://github.com/DCM-Uni-Paderborn/Hofstadter-Butterfly}. The reproducible analysis for Fig.~\ref{fig:moments} is \texttt{analysis/bellissard\_model\_moments.py}.
+The source of this article, the bilayer model code and eigenvalue files, the spectral-moment analysis, and the refined butterfly and state-count data are available in \url{https://github.com/DCM-Uni-Paderborn/Hofstadter-Butterfly}. The reproduction scripts in the \texttt{analysis/} directory are \texttt{bellissard\_model\_moments.py} for Fig.~\ref{fig:moments} and \texttt{bellissard\_butterfly.py} for Fig.~\ref{fig:butterfly}.
 
 \paragraph{Use of AI-assisted tools.}
 AI-assisted tools were used in developing the analysis script.

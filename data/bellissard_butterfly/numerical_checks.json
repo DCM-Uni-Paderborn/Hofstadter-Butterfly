@@ -1,0 +1,29 @@
+{
+  "angle_count": 241,
+  "angle_step_degrees": 0.25,
+  "energy_unit": "t_nn",
+  "gaussian_sigma": 0.02,
+  "energy_grid_step": 0.004999999999999893,
+  "normalization": "one state (2N=3020)",
+  "cross_section_degrees": 30.0,
+  "series": [
+    {
+      "d_over_a": 0.99,
+      "spectral_min": -4.388884640357925,
+      "spectral_max": 4.38889227775555,
+      "maximum_moment_residual": 2.4424906541753444e-15,
+      "maximum_DOS_integral_error": 3.3306690738754696e-15,
+      "maximum_DOS": 0.428970798106403,
+      "color_clipped_fraction": 0.0
+    },
+    {
+      "d_over_a": 0.97,
+      "spectral_min": -5.711551773282608,
+      "spectral_max": 5.711563951576797,
+      "maximum_moment_residual": 3.1086244689504383e-15,
+      "maximum_DOS_integral_error": 2.6645352591003757e-15,
+      "maximum_DOS": 0.5291164995603803,
+      "color_clipped_fraction": 2.9379183293268192e-05
+    }
+  ]
+}
