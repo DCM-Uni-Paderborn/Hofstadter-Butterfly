@@ -25,7 +25,7 @@
 
 ## Author details, validation, and availability
 
-- Set the author order to Vladislav Efremkin, Thomas D. Kuehne, and Emil Prodan. Thomas D. Kuehne carries the corresponding-author star with `tkuehne@cp2k.org` in both documents.
+- Set the author order to Vladislav Efremkin, Thomas D. Kühne, and Emil Prodan. Thomas D. Kühne carries the corresponding-author star with `tkuehne@cp2k.org` in both documents.
 - Shortened the AI-assisted-tools acknowledgment as requested.
 - Compiled and visually checked the PDFs; the build has no undefined references or overfull boxes.
 - Uploaded the manuscript, supplement, data, analysis code, and PDFs to the existing Overleaf project.

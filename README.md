@@ -1,6 +1,6 @@
 # Hofstadter Butterfly
 
-Manuscript archive for the twisted-graphene project by Vladislav Efremkin, Thomas D. Kuehne, and Emil Prodan.
+Manuscript archive for the twisted-graphene project by Vladislav Efremkin, Thomas D. Kühne, and Emil Prodan.
 
 The working manuscript is also available in [Overleaf](https://www.overleaf.com/project/6aaa40e72ddf45865b2e3bce). Updates between the two services are manual; this repository is not automatically synchronized with Overleaf.
 
