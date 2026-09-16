@@ -234,7 +234,8 @@ def analyze(paths):
         checks['comparison_summary'].append(summary)
     for name in ('size_comparisons', 'coupling_comparisons'):
         with (OUT / f'{name}.csv').open('w', newline='') as stream:
-            writer = csv.DictWriter(stream, fieldnames=list(checks[name][0]))
+            writer = csv.DictWriter(stream, fieldnames=list(checks[name][0]),
+                                    lineterminator='\n')
             writer.writeheader()
             writer.writerows(checks[name])
     (OUT / 'numerical_checks.json').write_text(json.dumps(checks, indent=2)+'\n')
