@@ -18,6 +18,7 @@ This package contains a PRL-format Letter and a detailed supplement based on the
 - `data/tb_reproduction/`: independently calculated dimensionless eigenvalues.
 - `analysis/`: model reproduction, figure generation, and consistency checks.
 - `AUTHOR_REVIEW.md`: scientific and authorship decisions required before submission.
+- `WORK_SUMMARY.md`: completed work, numerical checks, and remaining scientific limitations.
 
 Private correspondence, account information, and mail exports are not part of the manuscript package. Cluster submission scripts are excluded from the distributable archive; they are not required to compile the paper.
 
