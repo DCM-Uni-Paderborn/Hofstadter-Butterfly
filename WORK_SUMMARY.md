@@ -28,6 +28,6 @@
 - Shortened the AI-assisted-tools acknowledgment as requested.
 - Compiled and visually checked the PDFs; the build has no undefined references or overfull boxes.
 - Uploaded the manuscript, supplement, data, analysis code, and PDFs to the existing Overleaf project.
-- Created the private GitHub repository `DCM-Uni-Paderborn/Hofstadter-Butterfly` as a version-controlled archive. Private email exports, credentials, and cluster submission scripts are excluded.
+- Created `DCM-Uni-Paderborn/Hofstadter-Butterfly` as a version-controlled archive and subsequently made it public at the author's request. Private email exports, credentials, and cluster submission scripts are excluded.
 
 Overleaf and GitHub are not automatically synchronized. No journal submission or email to the coauthors has been sent.
