@@ -21,7 +21,7 @@
 
 - Kept the observed spectral reconstruction separate from unproven claims of bulk topological gaps, Chern numbers, fractality, or quantized pumping.
 - Documented the missing DFT raw output and postprocessing information, and the need for matched monolayer references, convergence and boundary checks, compressed-geometry stability checks, and an appropriate topological analysis.
-- Collected the required follow-up decisions in `AUTHOR_REVIEW.md`. No new DFT calculations or topological-invariant calculations have been performed.
+- No new DFT calculations or topological-invariant calculations have been performed.
 
 ## Author details, validation, and availability
 

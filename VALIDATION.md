@@ -11,4 +11,4 @@
 - Primary bibliographic metadata were checked against the DOI records. The DFT projection formula was checked against the CP2K 2023.1 PDOS source, which forms S^(1/2) C.
 - Added the published 2026 CP2K Made Simple article and the UZH protocol preprint. UZH replaces the separate GTH/MOLOPT citations as a methodological reference, with the actual input libraries explicitly identified in the supplement. The graphene dispersion statement is supported by a comparative primary study. Prose semicolons were removed except in a complex list, while mathematical notation was preserved.
 
-These checks establish technical consistency of the draft and model reproduction, not DFT convergence, experimental feasibility, or a topological invariant. The missing scientific evidence is listed in AUTHOR_REVIEW.md. No new DFT calculation or journal submission was made.
+These checks establish technical consistency of the draft and model reproduction, not DFT convergence, experimental feasibility, or a topological invariant. No new DFT calculation or journal submission was made.
