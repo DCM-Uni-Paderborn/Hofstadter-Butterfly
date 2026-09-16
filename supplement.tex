@@ -27,9 +27,11 @@
 
 \section{Scope and provenance}
 
-This supplement separates three categories of information: the supplied first-principles DOS images, the calculation settings and geometries directly recoverable from the input files, and a new numerical reproduction of the supplied tight-binding notebook. The principal source is the data package circulated by V. Efremkin on July 23, 2026. It contains ten SZV DOS maps, three DZVP maps, a two-page comparison document, 51 input configurations at $d=2.15\,\angstrom$, and model notebooks. Earlier correspondence documents the construction of the finite upper layer and identifies white columns as calculations that failed to converge. The complete final CP2K output files, state-resolved eigenvalues and projections, and the DFT plotting scripts were not present in that package.
+This supplement documents the first-principles spectra, their underlying calculation and plotting conventions, and the numerical reproduction of the supplied tight-binding model. The July 23, 2026 data package contains ten SZV DOS maps, three DZVP maps, 51 input configurations at $d=2.15\,\angstrom$, and model notebooks. The additional September 16, 2026 package supplies CP2K inputs, outputs, state-resolved projections, structure-generation and plotting notebooks, and seven monolayer DOS files. Table~\ref{tab:coverage} records the usable state-resolved data for the original image series. In particular, SZV output at $d=2.15\,\angstrom$ is absent from the additional package, although its input structures and original image are available.
 
-The DFT panels in this draft are the original images. They have not been interpolated, recolored, or used to infer quantitative gap widths. The model panels, by contrast, were regenerated from independently diagonalized Hamiltonians using the stated notebook parameters and an exact change of energy units. Thus the model reproduction is computationally reproducible from the accompanying code, whereas full reproduction of the DFT maps requires the missing state-resolved output and postprocessing. Statements about proposed controls below do not describe calculations already performed.
+The bilayer DFT panels retain the original images. The additional data identify the plotted component, spin channel, energy conversion, broadening, and column normalization. A monolayer reference figure uses the supplied DOS files with a common display convention. Public spectral extracts preserve the printed eigenvalues, occupations, and lower-layer weights, while a machine-readable inventory records input/output hashes, convergence flags, and incomplete files.
+
+The coordinate audit identifies a naming discrepancy: the directory and original image labeled $2.85\,\angstrom$ contain a planar separation of $2.84\,\angstrom$ in all 51 inputs, with cell height $12.84\,\angstrom$. The figure label and table therefore use $2.84\,\angstrom$, while source filenames remain unchanged for traceability. The ancillary $3.35\,\angstrom$ series is retained in the data inventory but is not added to the ten-distance image survey.
 
 \section{Atomistic geometry and its limitations}
 
@@ -54,22 +56,22 @@ The input specifies periodicity in all three directions. At this separation, the
 
 \section{First-principles settings and projected spectral weights}
 
-Table~\ref{tab:settings} summarizes the common input recovered for the 51 configurations. The associated submission script loads a CP2K/2023.1 module, but a program-version header from a completed output is not available. The SZV settings can be audited from the supplied inputs. The precise DZVP basis identifier and all corresponding calculation settings must be confirmed from the separate DZVP runs. Qualitative similarity between their rendered DOS maps does not establish basis convergence.
+Table~\ref{tab:settings} summarizes the settings of the ten-distance survey recovered from the supplied inputs and output headers. The latter identify CP2K 2023.1, except for the supplied $d=3.30\,\angstrom$, $\theta=49.8^\circ$ record, which reports CP2K 2026.1 (development version) with the same listed settings. The relative density cutoff is 20 hartree, equivalent to 40 Ry. The basis identifiers are SZV-MOLOPT-GTH and DZVP-MOLOPT-GTH for both carbon and hydrogen. Qualitative similarity between their spectra is a basis comparison, not a complete basis-convergence test. The separate $3.35\,\angstrom$ reference series uses other run settings and versions, recorded in the inventory, and is not pooled with the survey.
 
 The inputs specify the libraries \texttt{BASIS\_MOLOPT} and \texttt{GTH\_POTENTIALS}, not the newer UZH parameter files. The UZH protocol~\cite{uzh2026} provides the methodological reference for constructing MOLOPT/GTH parameter sets and separately assessing Gaussian-basis and pseudopotential errors.
 
 \begin{table}[h]
-\caption{Settings explicitly present in the supplied $d=2.15\,\angstrom$ inputs. Defaults not specified in those files are not reported as independently verified run parameters.}
+\caption{First-principles settings established from the supplied input and output files.}
 \label{tab:settings}
 \begin{ruledtabular}
 \begin{tabular}{p{0.29\textwidth}p{0.64\textwidth}}
-Electronic-structure method & CP2K Quickstep, Gaussian and plane waves (GPW)~\cite{cp2k2020,cp2k2026}, PBE~\cite{pbe1996} \\
+Electronic-structure method & CP2K Quickstep, primarily version 2023.1 (exception noted above), Gaussian and plane waves (GPW)~\cite{cp2k2020,cp2k2026}, PBE~\cite{pbe1996} \\
 Pseudopotentials & GTH-PBE, carbon $q4$, hydrogen $q1$ \\
-Gaussian basis & SZV-MOLOPT-GTH for C and H \\
-Spin and charge & Spin-polarized, neutral system with multiplicity not explicitly set \\
-Density grid & 300-Ry cutoff and five multigrids. Relative cutoff not explicitly set \\
+Gaussian basis & SZV-MOLOPT-GTH, or DZVP-MOLOPT-GTH for the comparison series, for C and H \\
+Spin and charge & Spin-polarized, neutral. Multiplicity not explicitly set in the input. Output multiplicities are 1 or 2, depending on electron-number parity \\
+Density grid & 300-Ry cutoff, 40-Ry relative cutoff, and five multigrids \\
 Quickstep accuracy & \texttt{EPS\_DEFAULT} $=10^{-10}$ \\
-Self-consistency & \texttt{EPS\_SCF} $=10^{-5}$, maximum 6000 iterations, atomic initial guess \\
+Self-consistency & \texttt{EPS\_SCF} $=10^{-5}$, maximum 6000 iterations. Atomic initial guess, with restart guesses in some inputs \\
 Diagonalization and mixing & Standard diagonalization with adaptive threshold 0.01. Broyden mixing with $\alpha=0.2$, buffer 10 \\
 Occupation scheme & Fermi--Dirac smearing at 300 K with 300 added molecular orbitals \\
 Dispersion & D3 pair-potential input with C9 terms requested and long-range correction disabled~\cite{grimme2010} \\
@@ -98,16 +100,49 @@ For a positive-definite overlap matrix, symmetric orthogonalization~\cite{lowdin
  \widetilde{\bm H}_\sigma=\bm S^{-1/2}\bm H_\sigma\bm S^{-1/2},
  \qquad \widetilde{\bm c}_{n\sigma}=\bm S^{1/2}\bm c_{n\sigma}.
 \end{equation}
-The CP2K 2023.1 PDOS implementation uses the corresponding L\"owdin-type coefficients. If $\bm\Pi_L$ selects orthogonalized orbital labels belonging to the lower layer, then
+The CP2K 2023.1 PDOS implementation uses the corresponding L\"owdin-type coefficients. If $\bm\Pi_A$ selects a set $A$ of orthogonalized orbital labels, then
 \begin{equation}
- w^{(L)}_{n\sigma}=\widetilde{\bm c}_{n\sigma}^{\dagger}\bm\Pi_L
- \widetilde{\bm c}_{n\sigma},\qquad 0\leq w^{(L)}_{n\sigma}\leq1.
+ w^{(A)}_{n\sigma}=\widetilde{\bm c}_{n\sigma}^{\dagger}\bm\Pi_A
+ \widetilde{\bm c}_{n\sigma},\qquad 0\leq w^{(A)}_{n\sigma}\leq1.
 \end{equation}
-This is an orbital-partition weight, not a real-space integral over a geometrical slab. Summing over a complete partition of all orbital labels recovers unit weight for each normalized state. A single-layer projection need not do so. Consequently, suppressed projected weight need not imply an absence of eigenvalues in the whole system.
+For the bilayer images, $A=(L,p_z)$ contains only the $p_z$ components on lower-layer atoms 1--1250. With the layers parallel to the $xy$ plane, $z$ is their common normal. The plotting notebooks read the alpha-spin \texttt{list1} file and select the sixth numerical column, whose header is \texttt{pz}. They neither sum all orbital components nor add the beta-spin channel. This is an orbital-partition weight, not a real-space slab integral. A complete partition of all orbital labels recovers unit weight for each normalized state, whereas the selected $p_z$ contribution does not. Suppressed plotted weight can therefore coexist with eigenvalues of other orbital, layer, or spin character.
 
 A $\Gamma$-point supercell spectrum consists of discrete eigenvalues. Broadening it is not equivalent to a converged Brillouin-zone integration. In an unrotated $N\times N$ graphene cell, primitive-cell $K$ folds to the supercell $\Gamma$ only if $N$ is divisible by three. The present $N=25$ does not satisfy that condition. A Dirac cone therefore cannot be diagnosed from a $\Gamma$-only angle--DOS map. Its horizontal coordinate is twist angle, not wave vector.
 
-Several distinctions matter for reproducibility. The 300-K Fermi--Dirac temperature sets occupations, whereas a Gaussian DOS width sets display broadening. The DOS print grid spacing is not automatically the postprocessing Gaussian width. Adding 300 molecular orbitals to the SCF diagonalization also does not by itself establish which unoccupied orbitals were written to every PDOS output. That requires the print settings and actual output. The supplied panels label their ordinate $E-E_F$ but do not explicitly print an energy unit or a calibrated color bar. Their original scale is retained here. Confirmation of the energy conversion, spin summation, normalization, broadening, and printed virtual-state range is needed before numerical gap widths can be reported in electronvolts. Separately shifting each configuration by its own $E_F$ can further obscure absolute spectral shifts.
+\subsection{Energy scale, Gaussian kernel, and intensity normalization}
+
+The supplied SZV and DZVP plotting notebooks convert the printed Hartree energies using
+\begin{equation}
+ e_{n\alpha}=27.211384\,[\varepsilon_{n\alpha}-E_F]\quad\text{in eV},
+\end{equation}
+where $E_F$ is read from each PDOS header. They retain states with $-7\leq e_{n\alpha}\leq3$ eV and evaluate their weighted Gaussian sum on 6000 points,
+\begin{equation}
+ E_j=\left(-7+j\frac{10}{6000}\right)\mathrm{eV},\qquad j=0,\ldots,5999.
+\end{equation}
+The display kernel used in the scripts is
+\begin{equation}
+ K_\eta(x)=\frac{e^{-x^2/\eta^2}}{2\pi\eta},\qquad \eta=0.02\ \mathrm{eV}.
+\end{equation}
+Its standard deviation is $\eta/\sqrt2=0.01414$ eV and its full width at half maximum is $2\sqrt{\ln2}\,\eta=0.03330$ eV. The prefactor differs by the constant $1/(2\sqrt\pi)$ from a unit-integral Gaussian. That constant cancels because each angle is displayed as
+\begin{equation}
+ I(E_j;\theta)=\frac{\sum_{n\in\mathcal W_\alpha}w^{(L,p_z)}_{n\alpha}K_\eta(E_j-e_{n\alpha})}
+ {\max_j\sum_{n\in\mathcal W_\alpha}w^{(L,p_z)}_{n\alpha}K_\eta(E_j-e_{n\alpha})}.
+\end{equation}
+The unit-integral kernel in the main-text equation gives the same $I$. No occupation factor multiplies the weights. The 300-K Fermi--Dirac smearing sets the SCF occupations, not this Gaussian width. The original maps use alpha spin only and individual column maxima, so neither spin summation nor absolute intensity comparison between angles is implicit in their colors. The independently chosen Fermi origins also remove information about absolute electrostatic energy shifts.
+
+\subsection{Available states and completeness checks}
+
+The audit checks SCF convergence, normal program termination, and agreement between the number of printed PDOS rows and the number of molecular orbitals stated in the corresponding output. These conditions are evaluated separately for each spin. Some supplied PDOS files are truncated even when the output reports a converged calculation, so convergence alone does not validate an image column. The inventory retains these records with explicit flags rather than filling missing spectra by interpolation.
+
+\begin{table}[h]
+\caption{State-resolved coverage of the original bilayer image series over $30^\circ$--$60^\circ$. An audited alpha column has a converged, normally terminated output and the expected number of PDOS rows. The final column gives the minimum and maximum, over these angles, of the highest printed alpha-spin energy relative to its own $E_F$. The images extend to $+3$ eV, but their numerical state coverage can end earlier.}
+\label{tab:coverage}
+\begin{ruledtabular}
+\input{data/dft_audit/coverage_table.tex}
+\end{ruledtabular}
+\end{table}
+
+The 300 added orbitals produce an angle- and basis-dependent upper energy limit. In particular, the DZVP data extend only to approximately $2.3$--$2.6$ eV above $E_F$. Low intensity above a configuration's last printed state is a truncation effect and is excluded from physical interpretation. Analysis near either end of the selected energy window must also allow for the Gaussian width. The public extracts store both spin channels separately, including occupations, Fermi levels, $p_z$ weights, and summed lower-layer orbital weights. They permit reconstruction of the available columns without recovering numbers from image colors.
 
 \section{Tight-binding model and the small-energy-scale issue}
 
@@ -202,9 +237,19 @@ The two-index and four-index integer labels refer to the four-dimensional algebr
 
 Establishing the proposed connection requires candidate gaps that survive size, boundary, reciprocal-space, and numerical convergence tests, followed by a justified gap-label or phason-response calculation for the corresponding bulk projector. No such label, Chern number, quantized pump, or physical Hall response is reported here. The real hopping Hamiltonian carries no magnetic flux. Synthetic-dimensional topology must not be conflated with the magnetic Hofstadter mechanism.
 
-\section{Matched references and outstanding controls}
+\section{Monolayer reference and remaining controls}
 
-An especially useful next calculation is a matched noninteracting-layer reference. With a common energy origin and identical broadening, define the unnormalized total-DOS change as
+The additional data contain total-DOS files for monolayer size labels 10, 20, 25, and 30 with SZV, and 10, 20, and 30 with DZVP. The labels identify the supplied size series. The accompanying description associates label 25 with approximately 1200 atoms, but monolayer coordinates and completed outputs are not included. We therefore retain the source labels rather than infer exact atom counts or reciprocal-space meshes from filenames.
+
+Figure~\ref{fig:monolayer} is a common-convention replot of these files. It adds the alpha and beta DOS columns, converts the energy grid to eV, and subtracts only the Fermi energy recorded in each header. The additional, size-dependent energy shifts used in the original monolayer plotting notebook are not applied. All curves use a Gaussian of standard deviation $0.10$ eV and are normalized to their own maximum in $[-7,3]$ eV. This broader display kernel resolves the reference envelopes and is intentionally distinct from the sharper bilayer-map kernel. The curves show size-dependent discrete spectral structure and its redistribution with basis choice. They supply a monolayer reference, not a matched subtraction from the layer- and orbital-resolved bilayer observable.
+
+\begin{figure}[h]
+\includegraphics[width=\textwidth]{figures/monolayer_reference.pdf}
+\caption{Supplied monolayer total DOS for the indicated size labels with (a) SZV and (b) DZVP bases. Both spins are included. A common Gaussian standard deviation of $0.10$ eV is used, with individual maximum normalization in the displayed window. Energy zero is each file's header Fermi level, without empirical offsets. Differences in discretization and the size-dependent energy reference preclude interpreting near-zero finite-cell minima as established bulk gaps.}
+\label{fig:monolayer}
+\end{figure}
+
+A quantitative interaction-induced DOS difference would require a matched noninteracting-layer reference. With a common energy origin and identical broadening, define the unnormalized total-DOS change as
 \begin{equation}
  \Delta D(E;\theta,d)=D_{\rm bilayer}(E;\theta,d)
                     -D_1^{\rm ref}(E;\theta)-D_2^{\rm ref}(E;\theta).
@@ -214,25 +259,25 @@ The references retain the actual layer geometries and edge termination but remov
 
 Separately setting each reference's Fermi energy to zero is not a common energy alignment. A vacuum or other well-defined electrostatic reference is needed for quantitative DFT differences. When the same complete state space and normalization are used, the integral of the unnormalized $\Delta D$ over all energies vanishes: coupling redistributes states rather than creating them. A restricted occupied-state or printed-orbital window need not satisfy this sum rule. The matched-reference calculation was proposed in the earlier analysis but is not included among the supplied results.
 
-Other outstanding controls are: completed SCF output for every column; spin and occupation checks; the printed unoccupied-state range; larger Gaussian bases and grid cutoffs; reciprocal-space sampling; vacuum convergence; larger upper patches and interior-only projections; a fixed-boundary or coverage-controlled angle series; and relaxation or force analysis of the compressed structures. In the model, radius and broadening series are needed before low-DOS regions are called bulk gaps. These tests should precede numerical gap widths, critical distances, pressure assignments, or topological labels.
+The supplied output resolves the computational version, projection, spin selection, display convention, and finite printed-state range. Remaining convergence questions concern larger Gaussian bases and grid cutoffs, reciprocal-space sampling, vacuum thickness, upper-patch size, and boundary or coverage effects. No relaxation of the compressed structures is included in the present results. Such tests are relevant to future quantitative gap widths, pressure assignments, and topological labels. They do not change the fixed-geometry model or the spectra reported here.
 
 \clearpage
 \section{Complete first-principles image survey}
 \begin{figure}[h]
 \includegraphics[width=\textwidth]{figures/dft_survey_1.pdf}
-\caption{Original SZV lower-layer projected DOS panels for $d=3.30$, $3.00$, $2.85$, $2.70$, $2.55$, and $2.30\,\angstrom$. Axes, colors, and missing columns are preserved. The displayed ordinate is the original $E-E_F$ scale. No calibrated common color scale is asserted. The full angular axes should not be mistaken for a larger sampled interval.}
+\caption{Original SZV lower-layer $p_z$ alpha-spin DOS panels for $d=3.30$, $3.00$, $2.84$, $2.70$, $2.55$, and $2.30\,\angstrom$. The third separation is corrected from the source label of $2.85\,\angstrom$ using the coordinates. Image axes, colors, and unavailable columns are preserved. $E-E_F$ is in eV and $\Theta$ in degrees. Intensities are normalized to each angular column's maximum. The sampled interval is $30^\circ$--$60^\circ$.}
 \end{figure}
 
 \clearpage
 \begin{figure}[t]
 \includegraphics[width=0.88\textwidth]{figures/dft_survey_2.pdf}
-\caption{Original SZV lower-layer projected DOS panels for $d=2.25$, $2.20$, $2.15$, and $2.00\,\angstrom$. A missing white column is not a gap. A dark region can reflect small layer weight, broadening, or finite-size discreteness and is not by itself a bulk spectral gap.}
+\caption{Original SZV lower-layer $p_z$ alpha-spin DOS panels for $d=2.25$, $2.20$, $2.15$, and $2.00\,\angstrom$, with the same units and column normalization as the preceding figure. White columns are unavailable data in the original plotting workflow. State-resolved coverage and finite upper energy limits are documented in Table~\ref{tab:coverage}.}
 \end{figure}
 
 \clearpage
 \begin{figure}[t]
 \includegraphics[width=\textwidth]{figures/basis_comparison.pdf}
-\caption{Original SZV (top) and DZVP (bottom) panels at $d=2.25$, $2.20$, and $2.15\,\angstrom$. Related large-scale structures provide a qualitative basis check. The source images do not establish a matched quantitative intensity normalization, converged gap width, or a complete basis-convergence series.}
+\caption{Original SZV (top) and DZVP (bottom) lower-layer $p_z$ alpha-spin panels at $d=2.25$, $2.20$, and $2.15\,\angstrom$. $E-E_F$ is in eV. Related large-scale structures provide a qualitative basis check under individual column normalization. The positive-energy truncation of the DZVP spectra is detailed in Table~\ref{tab:coverage}.}
 \end{figure}
 
 \clearpage

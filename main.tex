@@ -20,7 +20,7 @@
 \affiliation{Department of Physics, Yeshiva University, New York, New York 10016, USA}
 \date{September 16, 2026 --- Author-review draft}
 \begin{abstract}
-Quasiperiodic bilayers offer a route to spectral structures associated with higher-dimensional topology, but identifying their electronic counterparts requires going beyond idealized lattice models. We investigate the joint dependence of graphene electronic spectra on twist angle and imposed interlayer distance using density-functional calculations and a real-space tight-binding model. Layer-projected density-of-states maps evolve from weakly angle-dependent ridges at large separation to a more strongly reorganized pattern of branching spectral weight as the layers approach. Calculations with two Gaussian basis sets show qualitatively related structures in the compressed regime. An independently reproduced two-layer model isolates the competition between interlayer and intralayer hopping and provides a dimensionless comparison with this evolution. The results identify a candidate regime for Hofstadter-like spectral reconstruction without an applied magnetic field. They establish a spectral observation in constrained finite geometries, rather than a determination of bulk gap labels or Chern numbers.
+Quasiperiodic bilayers offer a route to spectral structures associated with higher-dimensional topology, but identifying their electronic counterparts requires going beyond idealized lattice models. We investigate the joint dependence of graphene electronic spectra on twist angle and imposed interlayer distance using density-functional calculations and a real-space tight-binding model. Lower-layer $p_z$-projected density-of-states maps evolve from weakly angle-dependent ridges at large separation to a more strongly reorganized pattern of branching spectral weight as the layers approach. Calculations with two Gaussian basis sets show qualitatively related structures in the compressed regime. An independently reproduced two-layer model isolates the competition between interlayer and intralayer hopping and provides a dimensionless comparison with this evolution. The results identify a candidate regime for Hofstadter-like spectral reconstruction without an applied magnetic field. They establish a spectral observation in constrained finite geometries, rather than a determination of bulk gap labels or Chern numbers.
 \end{abstract}
 \maketitle
 
@@ -38,7 +38,7 @@ We combine two deliberately distinct descriptions. The first is an atomistic den
 
 The DFT survey covers ten interlayer separations ranging from $2.00$ to $3.30\,\angstrom$. The detailed input series available at $d=2.15\,\angstrom$ contains 51 angles from $30^\circ$ to $60^\circ$ in steps of $0.6^\circ$. Its lower layer contains 1250 carbon atoms in a $25\times25$ graphene supercell with nearest-neighbor distance $1.42\,\angstrom$. The upper patch has 955--1013 carbon atoms and 84--100 hydrogen atoms, depending on angle. Both layers are planar in the inputs. These are fixed-geometry energy calculations, not a pressure-relaxed structural series. Geometry, termination, and numerical settings are documented in the Supplemental Material (SM)~\cite{SM}.
 
-The calculations use CP2K~\cite{cp2k2020,cp2k2026}, the PBE functional~\cite{pbe1996}, GTH pseudopotentials, and principally the SZV-MOLOPT-GTH basis~\cite{uzh2026}. The input requests spin-polarized self-consistency, a 300-Ry density-grid cutoff, and Fermi--Dirac occupations at 300~K. Selected maps use a DZVP basis. The D3 dispersion correction~\cite{grimme2010} accounts for the long-range attraction important for interlayer binding in graphene~\cite{lebedeva2017}. It contributes to the energy and forces but does not itself modify the Kohn--Sham spectrum at a fixed geometry. The electronic temperature must also be distinguished from the broadening used to display a DOS.
+The calculations use CP2K~\cite{cp2k2020,cp2k2026}, principally version 2023.1 (SM), the PBE functional~\cite{pbe1996}, GTH pseudopotentials, and chiefly the SZV-MOLOPT-GTH basis~\cite{uzh2026}. The calculations are spin polarized, with a 300-Ry density-grid cutoff, a 40-Ry relative cutoff, and Fermi--Dirac occupations at 300~K. Selected maps use DZVP-MOLOPT-GTH. The D3 dispersion correction~\cite{grimme2010} accounts for the long-range attraction important for interlayer binding in graphene~\cite{lebedeva2017}. It contributes to the energy and forces but does not itself modify the Kohn--Sham spectrum at a fixed geometry. The electronic temperature is distinct from the DOS display broadening.
 
 In a nonorthogonal Gaussian basis, the Kohn--Sham matrix problem is
 \begin{equation}
@@ -47,31 +47,31 @@ In a nonorthogonal Gaussian basis, the Kohn--Sham matrix problem is
  \bm c_{n\sigma}^{\dagger}\bm S\bm c_{m\sigma}=\delta_{nm}.
  \label{eq:ks}
 \end{equation}
-Here $\bm S$ is the overlap matrix, not an additional interaction. For the L\"owdin-type projection employed by CP2K, the weight on the lower-layer atomic orbitals is~\cite{lowdin1950}
+Here $\bm S$ is the overlap matrix, not an additional interaction. For the L\"owdin-type projection employed by CP2K, the weight on the lower-layer $p_z$ orbitals is~\cite{lowdin1950}
 \begin{equation}
- w^{(L)}_{n\sigma}
- =\sum_{\mu\in L}\left|
+ w^{(L,p_z)}_{n\sigma}
+ =\sum_{\mu\in(L,p_z)}\left|
        (\bm S^{1/2}\bm c_{n\sigma})_\mu\right|^2.
  \label{eq:weights}
 \end{equation}
-A broadened layer-projected DOS therefore has the form
+The maps display the alpha-spin contribution,
 \begin{equation}
- \rho_{L,\eta}(E)=\frac{1}{N_L}
- \sum_{n\sigma}w^{(L)}_{n\sigma}
- g_\eta\!\left(E-\varepsilon_{n\sigma}+E_F\right),
+ \rho^{(L,p_z)}_{\alpha,\eta}(E)=
+ \sum_{n\in\mathcal W_\alpha}w^{(L,p_z)}_{n\alpha}
+ g_\eta\!\left(E-\varepsilon_{n\alpha}+E_F\right),
  \label{eq:pdos}
 \end{equation}
-where $E$ is measured from $E_F$, $N_L$ specifies the normalization, and $g_\eta$ is a normalized display kernel. Equation~\eqref{eq:pdos} defines the observable. The supplied image maps are retained on their original energy and intensity scales, without reconstructing quantitative spectral weights from colors. Their postprocessing kernel and normalization require confirmation from the state-resolved output. Occupation smearing alone does not supply this information.
+where energies are in eV relative to each configuration's $E_F$, and $\mathcal W_\alpha$ contains the printed states in the plotting window. The unit-integral Gaussian $g_\eta$ has full width at half maximum $0.0333$~eV. Each angular column is divided by its maximum, so colors measure relative $p_z$ weight rather than an absolute, spin-summed DOS. The SM documents the verified plotting convention, data completeness, and printed-state limits.
 
 \begin{figure*}[t]
 \includegraphics[width=\textwidth]{figures/dft_main.pdf}
-\caption{Evolution of the supplied lower-layer projected DOS maps with imposed separation, using the SZV basis. The source images are reproduced without intensity manipulation. Their angular axis $\Theta$ is in degrees. The displayed data cover approximately $30^\circ$--$60^\circ$, while the source axes extend beyond that interval. The ordinate retains the supplied $E-E_F$ scale. Dark-to-bright colors encode increasing spectral weight. No common quantitative intensity calibration is assumed. White columns within the sampled interval are missing or unconverged calculations, not spectral gaps. All ten distances and the DZVP comparisons are shown in the SM.}
+\caption{Evolution of the lower-layer $p_z$-projected alpha-spin DOS with imposed separation, using SZV-MOLOPT-GTH. The source images are reproduced without intensity manipulation. $\Theta$ is in degrees and $E-E_F$ is in eV. The sampled interval is $30^\circ$--$60^\circ$. Dark-to-bright colors encode increasing weight, normalized separately to each column's maximum. White columns indicate unavailable data in the original plotting workflow. The finite printed-state window limits interpretation at positive energies (SM). All ten distances and the DZVP comparisons are shown in the SM.}
 \label{fig:dft}
 \end{figure*}
 
 Figure~\ref{fig:dft} illustrates the principal observation. At $d=3.30\,\angstrom$, the prominent spectral ridges depend only weakly on angle over most of the displayed interval. Decreasing the separation bends and redistributes these ridges. By $d=2.55\,\angstrom$, the occupied-state region contains additional angular structure. At $d=2.15\,\angstrom$, pronounced curved branches and intervening low-weight regions replace much of the nearly horizontal organization. The full survey shows this change across a range of separations rather than at a single isolated configuration. At the smallest supplied separation, the maps are more congested. The data do not support assigning a sharply defined critical distance.
 
-The SZV and DZVP maps at $d=2.25$, $2.20$, and $2.15\,\angstrom$ retain related large-scale spectral features, although their sharpness and detailed shapes differ (SM). This is a useful qualitative basis check, not a demonstration of converged gap widths. A layer projection also need not coincide with the total DOS: states concentrated on the upper patch or its edge can have small lower-layer weight. A dark interval in a projected, broadened DOS is consequently a candidate depletion region, not by itself a bulk spectral gap.
+The SZV and DZVP maps at $d=2.25$, $2.20$, and $2.15\,\angstrom$ retain related large-scale spectral features, although their sharpness and detailed shapes differ (SM). This is a useful qualitative basis check, not a demonstration of converged gap widths. A layer-, orbital-, and spin-resolved projection need not coincide with the total DOS: states on the upper patch, its edge, or other orbitals can have small plotted weight. A dark interval in this observable is consequently a candidate depletion region, not by itself a bulk spectral gap. Supplied monolayer spectra provide a separate size-dependent reference in the SM.
 
 To isolate the coupling mechanism, we use the supplied honeycomb model with primitive vectors
 $\bm a_1=(\sqrt{3}a,0)$ and $\bm a_2=(\sqrt{3}a/2,3a/2)$ and basis positions $(0,0)$ and $(0,a)$. Thus $a$ denotes the nearest-neighbor distance. Retaining sites inside a disk of radius $R$ gives a set $P_R$. The bilayer consists of $(\bm r,0)$ and $(\mathsf R_\theta\bm r,d)$ for every $\bm r\in P_R$, where $\mathsf R_\theta$ is the in-plane rotation matrix. On orthonormal site states, the Hamiltonian is
@@ -110,10 +110,10 @@ with a specified trace-per-volume normalization $\tau$. It counts states below $
 
 The finite geometries impose an additional limitation. The hydrogen-terminated patch covers only part of the lower sheet, and its termination changes with angle. The disk model removes the nonoverlapping sample-shape regions emphasized in the original model construction, but it does not remove boundary states. Accordingly, the sixfold angular organization expected for a bulk honeycomb system cannot be imposed as an exact identity on the finite DFT patches or on registry-sensitive commensurate configurations. A bulk-interior projection and a size series are needed to separate quasiperiodic reconstruction from edge and coverage effects.
 
-In summary, the available first-principles survey identifies interlayer distance as a control parameter for substantial angular spectral reconstruction in constrained twisted graphene geometries. An independently reproduced real-space model explains why the ratio of interlayer to intralayer hopping is an effective organizing variable. The most promising extension is now well defined: connect the observed depletion regions to converged bulk gaps and evaluate their phason-dependent topology. This would turn a materials-level spectral candidate into a test of the higher-dimensional physics suggested by quasiperiodic acoustic and mechanical systems, without conflating that prospect with a result already established.
+In summary, the first-principles survey identifies interlayer distance as a control parameter for angular spectral reconstruction in constrained twisted graphene. The real-space model explains why the ratio of interlayer to intralayer hopping organizes this evolution. Connecting the observed depletion regions to converged bulk gaps and evaluating their phason-dependent topology would turn this materials-level spectral candidate into a test of the higher-dimensional physics suggested by quasiperiodic acoustic and mechanical systems.
 
 \paragraph*{Data availability.}
-The manuscript archive is publicly available in the GitHub repository \url{https://github.com/DCM-Uni-Paderborn/Hofstadter-Butterfly}. It contains the supplied $d=2.15\,\angstrom$ input structures, original DFT panel images, and the code and eigenvalues for the model reproduction. State-resolved DFT output and the original DOS postprocessing scripts were not available for this analysis. Quantitative DFT gap extraction and complete reproduction of the displayed DFT maps therefore remain open.
+The public archive at \url{https://github.com/DCM-Uni-Paderborn/Hofstadter-Butterfly} contains the original DFT panels, input structures, audited spin-resolved spectral extracts, monolayer DOS, analysis code, and model eigenvalues. The SM and machine-readable inventory distinguish available, incomplete, and missing DFT records.
 
 \paragraph*{Use of AI-assisted tools.}
 AI-assisted tools were used to organize source material and develop analysis scripts.

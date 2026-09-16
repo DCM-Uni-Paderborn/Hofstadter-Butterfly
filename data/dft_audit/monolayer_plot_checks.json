@@ -1,0 +1,51 @@
+{
+  "szv_10": {
+    "grid_spacing_ev": 0.013605691999999999,
+    "gaussian_sigma_ev": 0.1,
+    "fermi_ha": -0.019356,
+    "manual_shift_ev": 0,
+    "maximum_in_display_window": 1.0
+  },
+  "szv_20": {
+    "grid_spacing_ev": 0.0027211384,
+    "gaussian_sigma_ev": 0.1,
+    "fermi_ha": -0.032604,
+    "manual_shift_ev": 0,
+    "maximum_in_display_window": 1.0
+  },
+  "szv_25": {
+    "grid_spacing_ev": 0.0027211384,
+    "gaussian_sigma_ev": 0.1,
+    "fermi_ha": -0.034867,
+    "manual_shift_ev": 0,
+    "maximum_in_display_window": 1.0
+  },
+  "szv_30": {
+    "grid_spacing_ev": 0.0027211384,
+    "gaussian_sigma_ev": 0.1,
+    "fermi_ha": -0.061019,
+    "manual_shift_ev": 0,
+    "maximum_in_display_window": 1.0
+  },
+  "dzvp_10": {
+    "grid_spacing_ev": 0.013605692,
+    "gaussian_sigma_ev": 0.1,
+    "fermi_ha": -0.04065,
+    "manual_shift_ev": 0,
+    "maximum_in_display_window": 1.0
+  },
+  "dzvp_20": {
+    "grid_spacing_ev": 0.0027211384000000003,
+    "gaussian_sigma_ev": 0.1,
+    "fermi_ha": -0.062137,
+    "manual_shift_ev": 0,
+    "maximum_in_display_window": 1.0
+  },
+  "dzvp_30": {
+    "grid_spacing_ev": 0.0027211384,
+    "gaussian_sigma_ev": 0.1,
+    "fermi_ha": -0.078169,
+    "manual_shift_ev": 0,
+    "maximum_in_display_window": 1.0
+  }
+}

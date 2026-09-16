@@ -54,29 +54,8 @@ axes[1].plot(th,[r['top_H'] for r in records],'.-',ms=3,lw=.7,color='#D55E00');a
 for i,a in enumerate(axes):a.set_xlabel(r'$\theta$ (deg)');a.set_title(f'({chr(97+i)})',loc='left');a.grid(alpha=.15)
 fig.savefig(FIG/'geometry_counts.pdf');plt.close(fig)
 
-def panels(items,name,ncols=3,width=6.8):
-    nrows=int(np.ceil(len(items)/ncols));fig,axes=plt.subplots(nrows,ncols,figsize=(width,2.38*nrows),squeeze=False)
-    for i,(file,title) in enumerate(items):
-        a=axes.flat[i];a.imshow(Image.open(ROOT/'data/original_panels'/file),interpolation='none');a.axis('off')
-        a.set_title(f'({chr(97+i)}) {title}',fontsize=9,pad=2)
-    for a in list(axes.flat)[len(items):]:a.axis('off')
-    fig.subplots_adjust(left=.005,right=.995,bottom=.005,top=.94,hspace=.18,wspace=.015)
-    fig.savefig(FIG/name,dpi=450);plt.close(fig)
-
-szv=[('DOS_3-30_theta30-60.jpg','3.30'),('DOS_3-0_theta30-60.jpg','3.00'),
- ('DOS_2-85_theta30-60.jpg','2.85'),('DOS_2-70_theta30-60.jpg','2.70'),
- ('DOS_2-55_theta30-60.jpg','2.55'),('DOS_2-30_theta30-60_l.jpg','2.30'),
- ('DOS_2-25_theta30-60_l.jpg','2.25'),('DOS_2-20_theta30-60_l.jpg','2.20'),
- ('DOS_2-15_theta30-60_l.jpg','2.15'),('DOS_2-0_theta30-60_l.jpg','2.00')]
-panels([(szv[i][0],f'$d={szv[i][1]}$ Å') for i in [0,4,8]],'dft_main.pdf')
-panels([(f,f'$d={d}$ Å') for f,d in szv[:6]],'dft_survey_1.pdf')
-panels([(f,f'$d={d}$ Å') for f,d in szv[6:]],'dft_survey_2.pdf',ncols=2)
-basis_items=[]
-for basis_name in ['SZV','DZVP']:
-    for d in ['25','20','15']:
-        file=f'DOS_2-{d}_theta30-60_l'+('_DZVP' if basis_name=='DZVP' else '')+'.jpg'
-        basis_items.append((file,f'{basis_name}, $d=2.{d}$ Å'))
-panels(basis_items,'basis_comparison.pdf')
+from assemble_dft_panels import assemble
+assemble()
 
 def tb_dos(file):
     data=np.load(file);positive=data['theta'];es=data['eigenvalues']
