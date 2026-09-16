@@ -34,7 +34,7 @@ Abstand bzw. Druck als Kontrollparameter für Graphen ist bereits bekannt, insbe
 
 ## 4. Formales und Freigabe
 
-- Autorenreihenfolge, Affiliationen, Corresponding Author, Förderhinweise und Beiträge bestätigen. Die momentane Reihenfolge Vladislav Efremkin, Emil Prodan, Thomas D. Kühne ist ein Vorschlag.
+- Festgelegte Autorenreihenfolge: Vladislav Efremkin, Thomas D. Kühne, Emil Prodan. Thomas D. Kühne ist mit Stern als Corresponding Author gekennzeichnet (tkuehne@cp2k.org). Affiliationen, Förderhinweise und Beiträge noch bestätigen.
 - Datenarchiv und Freigabe der gelieferten Daten vereinbaren; keine privaten E-Mail-Exporte veröffentlichen.
 - AI-Hinweis nach Autorenprüfung und aktueller Verlagspolitik finalisieren.
 - Alle derzeit im Manuskript offen benannten Reproduzierbarkeitsfragen vor einer Einreichung beantworten oder die Aussage entsprechend enger fassen.
